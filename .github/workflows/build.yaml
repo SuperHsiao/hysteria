@@ -25,6 +25,9 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3.0.0
 
+    - name: Log in to DockerHub
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
     - name: Build and Push to Docker Hub
       run: |
         docker buildx create --use
@@ -34,6 +37,3 @@ jobs:
           --platform linux/amd64,linux/arm64 \
           --tag $DOCKERHUB_REPOSITORY \
           --push .
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
